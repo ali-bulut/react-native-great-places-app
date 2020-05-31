@@ -5,16 +5,22 @@ import { TouchableOpacity } from "react-native-gesture-handler";
 import Colors from "../constants/Colors";
 
 const MapScreen = (props) => {
-  const [selectedLocation, setSelectedLocation] = useState();
+    const initialLocation = props.navigation.getParam('initialLocation');
+    const readonly = props.navigation.getParam('readonly');
 
-  let mapRegion = {
-    latitude: 41.021168,
-    longitude: 29.00425,
+  const [selectedLocation, setSelectedLocation] = useState(initialLocation);
+
+  const mapRegion = {
+    latitude: initialLocation ? initialLocation.lat : 41.021168,
+    longitude: initialLocation ? initialLocation.lng : 29.00425,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
-  
+
   const selectLocationHandler = (event) => {
+      if(readonly){
+          return;
+      }
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
       lng: event.nativeEvent.coordinate.longitude,
@@ -45,7 +51,7 @@ const MapScreen = (props) => {
   return (
     <MapView
       style={styles.map}
-      region={mapRegion}
+      initialRegion={mapRegion}
       onPress={selectLocationHandler}
     >
       {markerCoordinates && (
@@ -57,6 +63,10 @@ const MapScreen = (props) => {
 
 MapScreen.navigationOptions = (navData) => {
   const saveFn = navData.navigation.getParam("saveLocation");
+  const readonly = navData.navigation.getParam("readonly");
+  if(readonly){
+      return {};
+  }
   return {
     headerRight: () => (
       <TouchableOpacity

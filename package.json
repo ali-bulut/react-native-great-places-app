@@ -25,7 +25,8 @@
     "redux-thunk": "^2.3.0",
     "react-native-safe-area-context": "0.7.3",
     "expo-image-picker": "~8.1.0",
-    "expo-permissions": "~8.1.0"
+    "expo-permissions": "~8.1.0",
+    "expo-file-system": "~8.1.0"
   },
   "devDependencies": {
     "babel-preset-expo": "~8.1.0",

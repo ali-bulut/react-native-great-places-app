@@ -6,7 +6,7 @@ import { useSelector } from "react-redux";
 import CustomHeaderButton from "../components/CustomHeaderButton";
 import PlaceItem from "../components/PlaceItem";
 
-const PlacesListScreen = () => {
+const PlacesListScreen = (props) => {
   const places = useSelector((state) => state.places.places);
   return (
     <FlatList
@@ -14,7 +14,7 @@ const PlacesListScreen = () => {
       keyExtractor={(item) => item.id}
       renderItem={(itemData) => (
         <PlaceItem
-          image={null}
+          image={itemData.item.imageUri}
           title={itemData.item.title}
           address={null}
           onSelect={() => {

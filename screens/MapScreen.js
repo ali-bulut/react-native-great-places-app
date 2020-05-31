@@ -7,13 +7,13 @@ import Colors from "../constants/Colors";
 const MapScreen = (props) => {
   const [selectedLocation, setSelectedLocation] = useState();
 
-  const mapRegion = {
+  let mapRegion = {
     latitude: 41.021168,
     longitude: 29.00425,
     latitudeDelta: 0.0922,
     longitudeDelta: 0.0421,
   };
-
+  
   const selectLocationHandler = (event) => {
     setSelectedLocation({
       lat: event.nativeEvent.coordinate.latitude,
@@ -22,16 +22,16 @@ const MapScreen = (props) => {
   };
 
   const savePickedLocationHandler = useCallback(() => {
-      if(!selectedLocation){
-          //could show an alert
-          return;
-      }
-    props.navigation.navigate('NewPlace', {pickedLocation: selectedLocation});
-  }, [selectedLocation])
+    if (!selectedLocation) {
+      //could show an alert
+      return;
+    }
+    props.navigation.navigate("NewPlace", { pickedLocation: selectedLocation });
+  }, [selectedLocation]);
 
   useEffect(() => {
-      props.navigation.setParams({saveLocation: savePickedLocationHandler})
-  }, [savePickedLocationHandler])
+    props.navigation.setParams({ saveLocation: savePickedLocationHandler });
+  }, [savePickedLocationHandler]);
 
   let markerCoordinates;
 
@@ -56,10 +56,14 @@ const MapScreen = (props) => {
 };
 
 MapScreen.navigationOptions = (navData) => {
-    const saveFn = navData.navigation.getParam('saveLocation');
+  const saveFn = navData.navigation.getParam("saveLocation");
   return {
     headerRight: () => (
-      <TouchableOpacity style={styles.headerButton} activeOpacity={0.5} onPress={saveFn}>
+      <TouchableOpacity
+        style={styles.headerButton}
+        activeOpacity={0.5}
+        onPress={saveFn}
+      >
         <Text style={styles.headerButtonText}>Save</Text>
       </TouchableOpacity>
     ),
@@ -70,13 +74,13 @@ const styles = StyleSheet.create({
   map: {
     flex: 1,
   },
-  headerButton:{
-      marginHorizontal:20
+  headerButton: {
+    marginHorizontal: 20,
   },
-  headerButtonText:{
-      fontSize:16,
-      color: Platform.OS === 'android' ? 'white' : Colors.primary
-  }
+  headerButtonText: {
+    fontSize: 16,
+    color: Platform.OS === "android" ? "white" : Colors.primary,
+  },
 });
 
 export default MapScreen;
